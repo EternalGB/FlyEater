@@ -1,0 +1,36 @@
+{"frames": [
+
+{
+	"filename": "ripple1.png",
+	"frame": {"x":73,"y":27,"w":16,"h":11},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":26,"y":12,"w":16,"h":11},
+	"sourceSize": {"w":69,"h":35}
+},
+{
+	"filename": "ripple2.png",
+	"frame": {"x":73,"y":2,"w":42,"h":23},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":14,"y":6,"w":42,"h":23},
+	"sourceSize": {"w":69,"h":35}
+},
+{
+	"filename": "ripple3.png",
+	"frame": {"x":2,"y":2,"w":69,"h":35},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":69,"h":35},
+	"sourceSize": {"w":69,"h":35}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "ripple.png",
+	"format": "RGBA8888",
+	"size": {"w":117,"h":40},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:375253ac05477ca664b72790b9875585:7331f2691d4e0685681df951dcaca4b2:79e51c5aee8dce7c671e161af51fa795$"
+}
+}

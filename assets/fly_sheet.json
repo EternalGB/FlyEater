@@ -1,0 +1,36 @@
+{"frames": [
+
+{
+	"filename": "fly.png",
+	"frame": {"x":2,"y":2,"w":29,"h":23},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":0,"w":29,"h":23},
+	"sourceSize": {"w":33,"h":23}
+},
+{
+	"filename": "fly_dead.png",
+	"frame": {"x":33,"y":2,"w":29,"h":22},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":1,"w":29,"h":22},
+	"sourceSize": {"w":33,"h":23}
+},
+{
+	"filename": "fly_fly.png",
+	"frame": {"x":64,"y":2,"w":33,"h":20},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":3,"w":33,"h":20},
+	"sourceSize": {"w":33,"h":23}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "fly_sheet.png",
+	"format": "RGBA8888",
+	"size": {"w":99,"h":27},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:356a6b2c6c330c66a0557548b9ebf486:eb968bb98bba1c3c1e758fd3f6347205:fe797ccd02a0bfe4d21f327186e95271$"
+}
+}

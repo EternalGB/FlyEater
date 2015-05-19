@@ -1,0 +1,60 @@
+{"frames": [
+
+{
+	"filename": "grass1.png",
+	"frame": {"x":2,"y":2,"w":26,"h":29},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":26,"h":29},
+	"sourceSize": {"w":26,"h":29}
+},
+{
+	"filename": "grass2.png",
+	"frame": {"x":30,"y":2,"w":26,"h":29},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":26,"h":29},
+	"sourceSize": {"w":26,"h":29}
+},
+{
+	"filename": "grass3.png",
+	"frame": {"x":58,"y":2,"w":38,"h":35},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":38,"h":35},
+	"sourceSize": {"w":38,"h":35}
+},
+{
+	"filename": "grass4.png",
+	"frame": {"x":98,"y":2,"w":38,"h":35},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":38,"h":35},
+	"sourceSize": {"w":38,"h":35}
+},
+{
+	"filename": "grass5.png",
+	"frame": {"x":138,"y":2,"w":26,"h":29},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":26,"h":29},
+	"sourceSize": {"w":26,"h":29}
+},
+{
+	"filename": "grass6.png",
+	"frame": {"x":166,"y":2,"w":38,"h":35},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":38,"h":35},
+	"sourceSize": {"w":38,"h":35}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "grass.png",
+	"format": "RGBA8888",
+	"size": {"w":206,"h":39},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:6ef5cd33ae1c947fe6c03da0a8c78097:f20e823ede004b56d8551d6799cc1f92:b5eff027e4675af447e0c9c1b13dff5b$"
+}
+}

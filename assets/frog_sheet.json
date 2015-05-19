@@ -1,0 +1,52 @@
+{"frames": [
+
+{
+	"filename": "frog.png",
+	"frame": {"x":191,"y":2,"w":58,"h":39},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":58,"h":39},
+	"sourceSize": {"w":58,"h":39}
+},
+{
+	"filename": "frog_dead.png",
+	"frame": {"x":2,"y":2,"w":61,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":61,"h":54},
+	"sourceSize": {"w":61,"h":54}
+},
+{
+	"filename": "frog_hit.png",
+	"frame": {"x":65,"y":2,"w":61,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":61,"h":54},
+	"sourceSize": {"w":61,"h":54}
+},
+{
+	"filename": "frog_leap.png",
+	"frame": {"x":128,"y":2,"w":61,"h":54},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":61,"h":54},
+	"sourceSize": {"w":61,"h":54}
+},
+{
+	"filename": "frog_tongue_hit.png",
+	"frame": {"x":251,"y":2,"w":58,"h":39},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":58,"h":39},
+	"sourceSize": {"w":58,"h":39}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "frog_sheet.png",
+	"format": "RGBA8888",
+	"size": {"w":311,"h":58},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:5127e1e47e3059453e7a26c641469226:2e3124e0c68749af426e3bbe94af53e2:7debee359fc02d6b59c96b7a972afdc9$"
+}
+}
