@@ -11,6 +11,9 @@ var FlyEater = function(game){
   this.canTongue = true;
   this.tongueSpeed = 0.5;
 
+  this.tongueTween;
+  this.ballTween;
+  this.tweenDuration;
 
   this.tongueBall;
 
@@ -149,6 +152,7 @@ FlyEater.prototype = {
   		stretchTo.chain(stretchBack);
   		stretchBack.onComplete.add(this.onTongueComplete, this);
   		stretchTo.start();
+      this.tongueTween = stretchTo;
 
   		this.tongueBall.position.x = this.player.x;
   		this.tongueBall.position.y = this.player.y;
@@ -156,6 +160,7 @@ FlyEater.prototype = {
   		var ballBack = this.game.add.tween(this.tongueBall.position).to({x: this.player.position.x, y: this.player.position.y}, duration/2);
   		ballTo.chain(ballBack);
   		ballTo.start();
+      this.ballTween = ballTo;
   	}
   },
 
@@ -204,7 +209,9 @@ FlyEater.prototype = {
 
   onTongueHitEnemy: function(tongue, enemy)
   {
-    this.tongueTo = new Phaser.Point(enemy.x, enemy.y);
+    //this.tongueTo = new Phaser.Point(enemy.x, enemy.y);
+    this.tongueTween.stop(true);
+    this.ballTween.stop(true);
   },
 
   onCollectFly: function (player, fly)
