@@ -29,6 +29,7 @@ FlyEater.prototype = {
     //this.game.stage.backgroundColor = '#99CCFF';
     var bg = this.game.add.tileSprite(0,0,800,600,'bg');
     this.enemies = this.game.add.group();
+    this.flies = this.game.add.group();
     var mg = this.game.add.tileSprite(0,0,800,600,'mg');
     var fg = this.game.add.tileSprite(0,0,800,600,'fg');
 
@@ -41,9 +42,8 @@ FlyEater.prototype = {
 
     this.player = new Player(this.game, startX, startY);
 
-  	this.flies = this.game.add.group();
-  	this.flies.enableBody = true;
 
+  	this.flies.enableBody = true;
     this.enemies.enableBody = true;
 
   	this.scoreText = this.game.add.text(10,10,String(this.score),null);
