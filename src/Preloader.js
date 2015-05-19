@@ -15,6 +15,7 @@ Preloader.prototype = {
     this.game.load.atlasJSONArray('fly', 'assets/fly_sheet.png', 'assets/fly_sheet.json');
     this.game.load.atlasJSONArray('fish', 'assets/fish.png', 'assets/fish.json');
     this.game.load.atlasJSONArray('ripple', 'assets/ripple.png', 'assets/ripple.json');
+    this.game.load.atlasXML('enemies', 'assets/enemies.png', 'assets/enemies.xml');
     this.game.load.image('lily', 'assets/lily.png');
     this.game.load.image('bg', 'assets/bg.png');
     this.game.load.image('fg', 'assets/fg.png');

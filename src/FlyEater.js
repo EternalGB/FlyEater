@@ -12,6 +12,9 @@ var FlyEater = function(game){
   this.fishSpeed = 500;
   this.fishSpawnInterval = 5;
 
+  this.ladybugSpeed = 250;
+  this.ladybugSpawnInterval = 1;
+
   this.score = 0;
   this.scoreText;
 
@@ -51,13 +54,16 @@ FlyEater.prototype = {
 
   	this.time.events.loop(this.flySpawnInterval*1000, this.spawnFly, this);
     this.time.events.loop(this.fishSpawnInterval*1000, this.spawnFish, this);
+    this.time.events.loop(this.ladybugSpawnInterval*1000, this.spawnLadybug, this);
   },
 
   update: function() {
     if(this.player.tongueCanGrab) {
       this.game.physics.arcade.overlap(this.player.tongueBall, this.flies, this.player.onTongueFly, null, this.player);
     }
-    this.game.physics.arcade.overlap(this.player.tongueBall, this.enemies, this.onTongueHitEnemy, null, this);
+    if(this.player.tongueState != TongueStates.IDLE) {
+      this.game.physics.arcade.overlap(this.player.tongueBall, this.enemies, this.onTongueHitEnemy, null, this);
+    }
     this.game.physics.arcade.overlap(this.player, this.flies, this.onCollectFly, null, this);
     this.game.physics.arcade.overlap(this.player, this.enemies, this.onPlayerHitEnemy, null, this);
 
@@ -75,7 +81,17 @@ FlyEater.prototype = {
   		x += this.game.width + this.killDist;
   	var y = this.game.rnd.realInRange(0,this.playerY-30);
   	var speed = this.flySpeed + this.game.rnd.realInRange(-0.5,0.5)*this.flySpeed;
-  	this.flies.add(new Fly(this.game, x, y, -this.flySpeed*this.game.math.sign(x), this.killDist));
+  	this.flies.add(new Fly(this.game, x, y, -speed*this.game.math.sign(x), this.killDist));
+  },
+
+  spawnLadybug: function()
+  {
+    var x = -this.killDist + 10;
+    if(this.rnd.normal() < 0)
+      x += this.game.width + this.killDist;
+    var y = this.game.rnd.realInRange(0,this.playerY-100);
+    var speed = this.ladybugSpeed + this.game.rnd.realInRange(-0.5,0.5)*this.ladybugSpeed;
+    this.enemies.add(new Ladybug(this.game, x, y, -speed*this.game.math.sign(x)));
   },
 
   spawnFish: function()
