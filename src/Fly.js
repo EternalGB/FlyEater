@@ -8,8 +8,9 @@ Fly = function(game, x, y, moveSpeed, killDist)
   game.add.existing(this);
 
   //this.moveSpeed = moveSpeed;
-  this.animations.add('flying',['fly.png','fly_fly.png']);
-  this.animations.play('flying',48,true);
+  this.animations.add('flying',['fly.png','fly_fly.png'],48,true);
+  this.animations.add('dead',['fly_dead'],1,true);
+  this.animations.play('flying');
   game.physics.arcade.enable(this);
   this.body.velocity.x = moveSpeed;
   this.scale.x = -game.math.sign(moveSpeed);
@@ -22,7 +23,15 @@ Fly = function(game, x, y, moveSpeed, killDist)
     this.position = obj.position;
   }
 
-
+  this.drop = function() {
+    if(this.attached == true) {
+      this.attached = false;
+      this.body.gravity.setTo(0,300);
+      this.animations.play('dead');
+      this.scale.y = -1;
+      this.position = new Phaser.Point(this.x,this.y);
+    }
+  }
 
 }
 
