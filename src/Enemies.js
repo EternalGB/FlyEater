@@ -33,6 +33,7 @@ Ladybug = function(game, x, y, speed, killDist)
   var amplitude = speed/2;
   var startY = y - amplitude/2;
   Phaser.Sprite.call(this, game, x, startY, 'enemies');
+  this.scale.setTo(0.75);
   this.anchor.setTo(0.5);
   this.animations.add('fly',['ladyBug_fly.png'],1,true);
   this.animations.play('fly');
@@ -41,7 +42,7 @@ Ladybug = function(game, x, y, speed, killDist)
   game.physics.arcade.enable(this);
 
   this.body.velocity.x = speed;
-  this.scale.x = -game.math.sign(speed);
+  this.scale.x *= -game.math.sign(speed);
   game.add.tween(this.position).to({y: startY+amplitude}, 1000,
     Phaser.Easing.Linear.None, true, 0, -1, true);
 }
