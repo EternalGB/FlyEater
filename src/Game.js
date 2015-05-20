@@ -1,6 +1,10 @@
 var Game = function(game){
   this.player;
 
+  this.clouds;
+  this.cloudSpeed = 20;
+  this.cloudSpawnInterval = 10;
+
   this.killDist = 100;
   this.flySpeed = 100;
   this.flySpawnInterval = 1;
@@ -31,6 +35,7 @@ Game.prototype = {
     this.playerY = this.game.height - 100;
     this.game.stage.backgroundColor = '#99CCFF';
     var trees = this.game.add.tileSprite(0,0,800,800,'trees');
+    this.clouds = this.game.add.group();
     var bg = this.game.add.tileSprite(0,0,800,600,'bg');
     this.enemies = this.game.add.group();
     this.flies = this.game.add.group();
@@ -54,6 +59,7 @@ Game.prototype = {
   	this.scoreText = this.game.add.text(10,10,String(this.score),null);
 
 
+    this.time.events.loop(this.cloudSpawnInterval*1000, this.spawnCloud, this);
   	this.time.events.loop(this.flySpawnInterval*1000, this.spawnFly, this);
     this.time.events.loop(this.fishSpawnInterval*1000, this.spawnFish, this);
     this.time.events.loop(this.ladybugSpawnInterval*1000, this.spawnLadybug, this);
@@ -74,6 +80,17 @@ Game.prototype = {
   moveTowards: function(body, x, y, speed) {
   	body.velocity.x = this.game.math.clamp(x - body.x, -speed, speed);
   	body.velocity.y = this.game.math.clamp(y - body.y, -speed, speed);
+  },
+
+  spawnCloud: function ()
+  {
+    var killDist = 200;
+  	var x = -killDist + 10;
+  	if(this.rnd.normal() < 0)
+  		x += this.game.width + killDist;
+  	var y = this.game.rnd.realInRange(0,200);
+  	var speed = this.cloudSpeed + this.game.rnd.realInRange(-0.5,0.5)*this.cloudSpeed;
+  	this.clouds.add(new Cloud(this.game, x, y, -speed*this.game.math.sign(x), killDist));
   },
 
   spawnFly: function ()

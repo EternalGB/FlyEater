@@ -21,6 +21,7 @@ Preloader.prototype = {
     this.game.load.image('bg', 'assets/bg.png');
     this.game.load.image('fg', 'assets/fg.png');
     this.game.load.image('mg', 'assets/mg.png');
+    this.game.load.atlasJSONArray('clouds', 'assets/clouds.png', 'assets/clouds.json');
     this.game.load.image('retryButton','assets/button_retry.png');
   },
 
