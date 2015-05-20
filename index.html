@@ -4,12 +4,14 @@
 	<meta charset="UTF-8" />
 	<title>Fly Eater</title>
     <script src="phaser.js"></script>
+		<script src="src/UI.js"></script>
 		<script src="src/Cloud.js"></script>
 		<script src="src/Fly.js"></script>
 		<script src="src/Enemies.js"></script>
 		<script src="src/Player.js"></script>
 		<script src="src/Boot.js"></script>
 		<script src="src/Preloader.js"></script>
+		<script src="src/MainMenu.js"></script>
 		<script src="src/Game.js"></script>
 		<script src="src/End.js"></script>
     <style type="text/css">
@@ -25,6 +27,7 @@
 	var game = new Phaser.Game(800, 600, Phaser.AUTO, '');
 	game.state.add('Boot', Boot);
 	game.state.add('Preloader', Preloader);
+	game.state.add('MainMenu', MainMenu);
 	game.state.add('Game', Game);
 	game.state.add('End',End);
 	game.state.start('Boot', true, false, "");
