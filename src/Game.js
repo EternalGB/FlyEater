@@ -1,4 +1,4 @@
-var FlyEater = function(game){
+var Game = function(game){
   this.player;
 
   this.killDist = 100;
@@ -20,7 +20,7 @@ var FlyEater = function(game){
 
 };
 
-FlyEater.prototype = {
+Game.prototype = {
 
   init: function() {
 
@@ -30,6 +30,7 @@ FlyEater.prototype = {
   create: function() {
     this.playerY = this.game.height - 100;
     //this.game.stage.backgroundColor = '#99CCFF';
+    var trees = this.game.add.tileSprite(0,0,800,800,'trees');
     var bg = this.game.add.tileSprite(0,0,800,600,'bg');
     this.enemies = this.game.add.group();
     this.flies = this.game.add.group();

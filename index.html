@@ -24,7 +24,7 @@
 	var game = new Phaser.Game(800, 600, Phaser.AUTO, '');
 	game.state.add('Boot', Boot);
 	game.state.add('Preloader', Preloader);
-	game.state.add('Game', FlyEater);
+	game.state.add('Game', Game);
 	game.state.add('End',End);
 	game.state.start('Boot', true, false, "");
 })();
