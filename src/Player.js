@@ -121,8 +121,8 @@ Player.prototype.disableTongue = function()
 {
   this.tongueCanGrab = false;
   this.animations.play('tongueHit');
-  this.tongue.tint = this.disabledTint;
-  this.tongueBall.tint = this.disabledTint;
+  this.tongue.alpha = 0.5;
+  this.tongueBall.alpha = 0.5;
 }
 
 Player.prototype.returnTongue = function()
@@ -151,8 +151,8 @@ Player.prototype.onTongueComplete = function()
   this.canTongue = true;
   this.tongueBall.visible = false;
   this.animations.play('sitting');
-  this.tongue.tint = this.enabledTint;
-  this.tongueBall.tint = this.enabledTint;
+  this.tongue.alpha = 1;
+  this.tongueBall.alpha = 1;
 }
 
 Player.prototype.onTongueFly = function (tongue, fly)

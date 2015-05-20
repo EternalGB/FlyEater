@@ -13,7 +13,7 @@ var FlyEater = function(game){
   this.fishSpawnInterval = 5;
 
   this.ladybugSpeed = 250;
-  this.ladybugSpawnInterval = 1;
+  this.ladybugSpawnInterval = 2.5;
 
   this.score = 0;
   this.scoreText;
@@ -34,9 +34,10 @@ FlyEater.prototype = {
     this.enemies = this.game.add.group();
     this.flies = this.game.add.group();
     var mg = this.game.add.tileSprite(0,0,800,600,'mg');
+    this.waterEffects = this.game.add.group();
     var fg = this.game.add.tileSprite(0,0,800,600,'fg');
 
-    this.waterEffects = this.game.add.group();
+
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -103,10 +104,15 @@ FlyEater.prototype = {
     ripple.anchor.setTo(0.5);
     ripple.animations.add('doRipple',[0,1,2],3,true);
     ripple.animations.play('doRipple');
+    var fishGhost = this.game.add.sprite(x,y+50, 'fish');
+    fishGhost.anchor.setTo(0.5);
+    fishGhost.alpha = 0.5;
     this.waterEffects.add(ripple);
+    this.waterEffects.add(fishGhost);
     this.game.time.events.add(3*1000,function(ripple,x,y,speed) {
       this.enemies.add(new Fish(this.game, x, y, speed));
       ripple.destroy();
+      fishGhost.destroy();
     }, this,ripple, x, y+20, speed);
 
   },
