@@ -5,8 +5,8 @@ MainMenu.prototype = {
     this.game.stage.backgroundColor = '#99CCFF';
     var title = this.add.text(this.game.width/2, this.game.height/2-100,"Frog");
     title.anchor.setTo(0.5);
-    var playButton = new TextButton(this.game, "Play", this.game.width/2,
-    this.game.height/2+100, 'button', this.startGame, this);
+    var playButton = new StandardButton(this.game, "Play", 0x33CCFF,
+    this.game.width/2, this.game.height/2+100, this.startGame, this);
   },
 
   create: function() {

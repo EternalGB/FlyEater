@@ -9,7 +9,7 @@ Preloader.prototype = {
     loadingBar.anchor.setTo(0.5);
     this.game.load.setPreloadSprite(loadingBar);
 
-    this.game.load.image('button','assets/button.png');
+    this.game.load.atlasJSONArray('button','assets/button.png', 'assets/button.json');
     this.game.load.atlasJSONArray('frog', 'assets/frog_sheet.png', 'assets/frog_sheet.json');
     this.game.load.image('tongue', 'assets/tongue.png');
     this.game.load.image('tongueBall', 'assets/tongue_ball.png');
