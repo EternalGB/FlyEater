@@ -29,7 +29,7 @@ Game.prototype = {
 
   create: function() {
     this.playerY = this.game.height - 100;
-    //this.game.stage.backgroundColor = '#99CCFF';
+    this.game.stage.backgroundColor = '#99CCFF';
     var trees = this.game.add.tileSprite(0,0,800,800,'trees');
     var bg = this.game.add.tileSprite(0,0,800,600,'bg');
     this.enemies = this.game.add.group();
