@@ -17,7 +17,7 @@ var Player = function(game, startX, startY)
   this.anchor.setTo(0.5);
   this.animations.add('sitting', ['frog.png'],1,true);
   this.animations.add('tongueHit', ['frog_tongue_hit.png'],1,true);
-  this.animations.add('leaping',['frog_leaping.png'],1,true);
+  this.animations.add('leaping',['frog_leap.png'],1,true);
   this.animations.play('sitting');
 
 
@@ -92,6 +92,7 @@ Player.prototype.update = function()
     this.body.velocity.y = 0;
     this.y = this.playerY;
     this.isLeaping = false;
+    this.animations.play('sitting');
   }
 
 }
@@ -194,6 +195,7 @@ Player.prototype.leap = function(to)
   console.log(h, t, v);
   this.body.velocity.y = v;
   this.body.gravity.setTo(0,this.leapGravity);
+  this.animations.play('leaping');
 }
 
 Player.prototype.stopMoving = function()
