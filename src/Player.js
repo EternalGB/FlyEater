@@ -66,7 +66,7 @@ Player.prototype.update = function()
 
 
   if(this.game.input.mousePointer.withinGame) {
-    if(this.game.input.mousePointer.isDown) {
+    if(this.game.input.mouse.button == Phaser.Mouse.LEFT_BUTTON) {
       this.shootTongue(this.game.input.mousePointer.positionDown);
     }
 

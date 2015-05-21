@@ -11,7 +11,7 @@ Boot.prototype = {
   },
 
   create: function() {
-
+    this.game.canvas.oncontextmenu = function(e) {e.preventDefault();};
     this.game.state.start('Preloader');
   }
 
