@@ -8,8 +8,10 @@ var Player = function(game, startX, startY)
 {
   this.speed = 100;
   this.playerY = startY;
-  this.diabledTint = 0x006666;
-  this.enabledTint = 0xFFFFFF;
+  this.maxLeapHeight = 100;
+  this.maxLeapTime = 2;
+  this.leapGravity = 300;
+  this.isLeaping = false;
 
   Phaser.Sprite.call(this,game,game.width/2,this.playerY,'frog');
   this.anchor.setTo(0.5);
@@ -33,18 +35,14 @@ var Player = function(game, startX, startY)
 
   this.tongue = game.add.sprite(startX, startY,'tongue');
   this.tongue.anchor.setTo(0,0.5);
-  //this.tongue.pivot = this.tongue.anchor;
   this.tongue.scale.setTo(0,this.tongueWidth);
+  this.tongue.position = this.position;
 
   this.lily = game.add.sprite(startX,startY,'lily');
-
-
-
-
   this.lily.anchor.setTo(0.5,0);
-  this.lily.position = this.position;
+  //this.lily.position = this.position;
 
-  this.tongue.position = this.position;
+
 
   this.tongueBall = game.add.sprite(startX, startY, 'tongueBall');
   this.tongueBall.anchor.setTo(0.5);
@@ -63,31 +61,49 @@ Player.prototype = Object.create(Phaser.Sprite.prototype);
 
 Player.prototype.update = function()
 {
+  //console.log(this.body.velocity);
 
 
-  if(this.game.input.mousePointer.withinGame) {
+  if(!this.isLeaping) {
     if(this.game.input.mouse.button == Phaser.Mouse.LEFT_BUTTON) {
       this.shootTongue(this.game.input.mousePointer.positionDown);
+    } else if(this.game.input.mouse.button == Phaser.Mouse.RIGHT_BUTTON
+      && this.game.input.mousePointer.positionDown.y < this.playerY) {
+      this.leap(this.game.input.mousePointer.positionDown);
     }
-
-    if(this.tongueState === TongueStates.SHOOTING || this.tongueState === TongueStates.RETURNING) {
-      this.tongue.rotation = this.game.math.angleBetweenPoints(this.position, this.tongueTo);
-    } else if(this.tongueState === TongueStates.IDLE) {
-      this.moveTowards(
-        this.game.input.mousePointer.x,
-        this.playerY,
-        this.speed);
-      this.scale.x = -this.game.math.sign(this.body.velocity.x);
-    }
+    this.lily.position.setTo(this.x,this.y);
   } else {
-    this.stopMoving();
+    this.lily.position.setTo(this.x, this.playerY);
   }
+
+
+  if(this.tongueState === TongueStates.SHOOTING || this.tongueState === TongueStates.RETURNING) {
+    this.tongue.rotation = this.game.math.angleBetweenPoints(this.position, this.tongueTo);
+  } else if(this.tongueState === TongueStates.IDLE) {
+    if(!this.isLeaping) {
+      this.moveTowardsY(this.playerY, this.speed);
+    }
+    this.moveTowardsX(this.game.input.mousePointer.x, this.speed);
+    this.scale.x = -this.game.math.sign(this.body.velocity.x);
+  }
+
+  if(this.isLeaping && this.y > this.playerY) {
+    this.body.gravity.setTo(0,0);
+    this.body.velocity.y = 0;
+    this.y = this.playerY;
+    this.isLeaping = false;
+  }
+
 }
 
-Player.prototype.moveTowards = function(x,y,speed)
+Player.prototype.moveTowardsX = function(x,speed)
 {
-	this.body.velocity.x = this.game.math.clamp(x - this.body.x, -speed, speed);
-	this.body.velocity.y = this.game.math.clamp(y - this.body.y, -speed, speed);
+	this.body.velocity.x = this.game.math.clamp(x - this.x, -speed, speed);
+}
+
+Player.prototype.moveTowardsY = function(y, speed)
+{
+  this.body.velocity.y = this.game.math.clamp(y - this.y, -speed, speed);
 }
 
 Player.prototype.shootTongue = function (to)
@@ -166,6 +182,18 @@ Player.prototype.onTongueHitEnemy = function(tongue, enemy)
   this.disableTongue();
   this.returnTongue();
 
+}
+
+Player.prototype.leap = function(to)
+{
+  this.isLeaping = true;
+  var h = this.game.math.clamp(this.game.math.difference(to.y, this.playerY),0,this.maxLeapHeight);
+  var t = this.game.math.clamp(h/this.maxLeapHeight,0,1)*this.maxLeapTime;
+  //this.y += 10;
+  var v = -(h + 0.5*Math.pow(t,2)*this.leapGravity)/t;
+  console.log(h, t, v);
+  this.body.velocity.y = v;
+  this.body.gravity.setTo(0,this.leapGravity);
 }
 
 Player.prototype.stopMoving = function()
