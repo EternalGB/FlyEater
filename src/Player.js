@@ -13,6 +13,7 @@ var Player = function(game, startX, startY)
   this.leapGravity = 300;
   this.isLeaping = false;
 
+
   Phaser.Sprite.call(this,game,game.width/2,this.playerY,'frog');
   this.anchor.setTo(0.5);
   this.animations.add('sitting', ['frog.png'],1,true);
@@ -204,3 +205,42 @@ Player.prototype.stopMoving = function()
   this.body.velocity.x = 0;
   this.body.velocity.y = 0;
 }
+
+Player.prototype.die = function(gameEndCallback, context)
+{
+  //make a local copy of these so we don't lose them
+  //var cb = gameEndCallback;
+  //var con = context;
+  return function() {
+    new PlayerDead(this.game, this.x, this.y, this.isLeaping, gameEndCallback, context);
+    this.visible = false;
+    this.body.enable = false;
+  };
+}
+
+var PlayerDead = function(game, x, y, wasLeaping, gameEndCallback, context)
+{
+  Phaser.Sprite.call(this,game,x,y,'frog');
+  game.add.existing(this);
+  this.anchor.setTo(0.5);
+  this.animations.add('leapDead',['frog_dead.png'],1,true);
+  this.animations.add('sitDead',['frog_tongue_hit.png'],1,true);
+  if(wasLeaping) {
+    this.animations.play('leadDead');
+  } else {
+    this.animations.play('sitDead');
+  }
+  game.physics.arcade.enable(this);
+  this.body.gravity.setTo(0,300);
+  this.body.velocity.y = -200;
+  this.scale.y = -this.scale.y;
+
+  this.checkWorldBounds = true;
+  this.events.onOutOfBounds.add(function() {
+    console.log(gameEndCallback);
+    gameEndCallback.apply(context);
+  }, this);
+}
+
+PlayerDead.prototype = Object.create(Phaser.Sprite.prototype);
+PlayerDead.prototype.constructor = PlayerDead;

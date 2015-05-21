@@ -63,6 +63,7 @@ Game.prototype = {
   	this.time.events.loop(this.flySpawnInterval*1000, this.spawnFly, this);
     this.time.events.loop(this.fishSpawnInterval*1000, this.spawnFish, this);
     this.time.events.loop(this.ladybugSpawnInterval*1000, this.spawnLadybug, this);
+
   },
 
   update: function() {
@@ -73,7 +74,7 @@ Game.prototype = {
       this.game.physics.arcade.overlap(this.player.tongueBall, this.enemies, this.onTongueHitEnemy, null, this);
     }
     this.game.physics.arcade.overlap(this.player, this.flies, this.onCollectFly, null, this);
-    this.game.physics.arcade.overlap(this.player, this.enemies, this.onPlayerHitEnemy, null, this);
+    this.game.physics.arcade.overlap(this.player, this.enemies, this.player.die(this.onGameEnd,this), null, this.player);
 
   },
 
@@ -135,7 +136,7 @@ Game.prototype = {
 
   },
 
-  onPlayerHitEnemy: function(player, enemy)
+  onGameEnd: function()
   {
     this.game.state.start('End', true, false, this.score);
   },
