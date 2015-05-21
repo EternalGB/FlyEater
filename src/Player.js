@@ -68,6 +68,7 @@ Player.prototype.update = function()
     if(this.game.input.mouse.button == Phaser.Mouse.LEFT_BUTTON) {
       this.shootTongue(this.game.input.mousePointer.positionDown);
     } else if(this.game.input.mouse.button == Phaser.Mouse.RIGHT_BUTTON
+      && this.tongueState == TongueStates.IDLE
       && this.game.input.mousePointer.positionDown.y < this.playerY) {
       this.leap(this.game.input.mousePointer.positionDown);
     }
