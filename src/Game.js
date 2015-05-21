@@ -150,7 +150,10 @@ Game.prototype = {
 
   onTongueHitEnemy: function(tongueBall, enemy)
   {
-    this.flies.callAll('drop');
+    this.flies.forEach(function(fly) {
+      if(fly.attached)
+        fly.drop();
+    },this);
     this.player.onTongueHitEnemy(tongueBall,enemy);
   }
 

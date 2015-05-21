@@ -29,32 +29,16 @@ Fish.prototype.update = function() {
 
 Ladybug = function(game, x, y, speed, killDist)
 {
-  this.killDist = killDist;
   var amplitude = speed/2;
   var startY = y - amplitude/2;
-  Phaser.Sprite.call(this, game, x, startY, 'enemies');
-  this.scale.setTo(0.75);
+  ScrollingSprite.call(this, game, x, startY, 'enemies', speed, killDist);
+  this.scale.setTo(0.75*this.scale.x,0.75);
   this.anchor.setTo(0.5);
   this.animations.add('fly',['ladyBug_fly.png'],1,true);
   this.animations.play('fly');
-
-  game.add.existing(this);
-  game.physics.arcade.enable(this);
-
-  this.body.velocity.x = speed;
-  this.scale.x *= -game.math.sign(speed);
   game.add.tween(this.position).to({y: startY+amplitude}, 1000,
     Phaser.Easing.Linear.None, true, 0, -1, true);
 }
 
-Ladybug.prototype = Object.create(Phaser.Sprite.prototype);
+Ladybug.prototype = Object.create(ScrollingSprite.prototype);
 Ladybug.prototype.constructor = Ladybug;
-
-Ladybug.prototype.update = function()
-{
-  if((this.x < -this.killDist || this.x > this.game.width+this.killDist)
-    && this.alive) {
-    this.destroy();
-  }
-  //this.body.velocity.y = Math.sin(this.game.time.now)*300;
-}
