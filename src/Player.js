@@ -208,9 +208,6 @@ Player.prototype.stopMoving = function()
 
 Player.prototype.die = function(gameEndCallback, context)
 {
-  //make a local copy of these so we don't lose them
-  //var cb = gameEndCallback;
-  //var con = context;
   return function() {
     new PlayerDead(this.game, this.x, this.y, this.isLeaping, gameEndCallback, context);
     this.visible = false;
@@ -226,7 +223,7 @@ var PlayerDead = function(game, x, y, wasLeaping, gameEndCallback, context)
   this.animations.add('leapDead',['frog_dead.png'],1,true);
   this.animations.add('sitDead',['frog_tongue_hit.png'],1,true);
   if(wasLeaping) {
-    this.animations.play('leadDead');
+    this.animations.play('leapDead');
   } else {
     this.animations.play('sitDead');
   }
@@ -237,7 +234,6 @@ var PlayerDead = function(game, x, y, wasLeaping, gameEndCallback, context)
 
   this.checkWorldBounds = true;
   this.events.onOutOfBounds.add(function() {
-    console.log(gameEndCallback);
     gameEndCallback.apply(context);
   }, this);
 }
