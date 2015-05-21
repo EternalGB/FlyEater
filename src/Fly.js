@@ -9,3 +9,4 @@ Fly = function(game, x, y, moveSpeed, killDist)
 }
 
 Fly.prototype = Object.create(ScrollingSprite.prototype);
+Fly.prototype.constructor = Fly;

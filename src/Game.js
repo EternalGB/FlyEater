@@ -11,6 +11,10 @@ var Game = function(game){
   this.flies;
   this.enemies;
 
+  this.bees;
+  this.beeSpeed = 200;
+  this.beeSpawnInterval = 3;
+
   this.waterEffects;
 
   this.fishSpeed = 500;
@@ -39,6 +43,7 @@ Game.prototype = {
     var bg = this.game.add.tileSprite(0,0,800,600,'bg');
     this.enemies = this.game.add.group();
     this.flies = this.game.add.group();
+    this.bees = this.game.add.group();
     var mg = this.game.add.tileSprite(0,0,800,600,'mg');
     this.waterEffects = this.game.add.group();
     var fg = this.game.add.tileSprite(0,0,800,600,'fg');
@@ -83,35 +88,34 @@ Game.prototype = {
   	body.velocity.y = this.game.math.clamp(y - body.y, -speed, speed);
   },
 
+  spawnScrollingSprite: function(objType, group, yMin, yMax, speed, killDist)
+  {
+    var x = -killDist + 10;
+    if(this.game.rnd.normal() < 0) {
+      x += this.game.width + killDist;
+    }
+    var y = this.game.rnd.realInRange(yMin,yMax);
+    var rndSpeed = speed + this.game.rnd.realInRange(-0.5,0.5)*speed;
+    var scrollingObj = new objType(this.game, x, y,
+      -rndSpeed*this.game.math.sign(x), killDist);
+    group.add(scrollingObj);
+  },
+
   spawnCloud: function ()
   {
-    var killDist = 200;
-  	var x = -killDist + 10;
-  	if(this.rnd.normal() < 0)
-  		x += this.game.width + killDist;
-  	var y = this.game.rnd.realInRange(0,200);
-  	var speed = this.cloudSpeed + this.game.rnd.realInRange(-0.5,0.5)*this.cloudSpeed;
-  	this.clouds.add(new Cloud(this.game, x, y, -speed*this.game.math.sign(x), killDist));
+    this.spawnScrollingSprite(Cloud, this.clouds, 0, 200, this.cloudSpeed, 200);
   },
 
   spawnFly: function ()
   {
-  	var x = -this.killDist + 10;
-  	if(this.rnd.normal() < 0)
-  		x += this.game.width + this.killDist;
-  	var y = this.game.rnd.realInRange(0,this.playerY-30);
-  	var speed = this.flySpeed + this.game.rnd.realInRange(-0.5,0.5)*this.flySpeed;
-  	this.flies.add(new Fly(this.game, x, y, -speed*this.game.math.sign(x), this.killDist));
+    this.spawnScrollingSprite(Fly, this.flies, 0, this.playerY-30,
+       this.flySpeed, this.killDist);
   },
 
   spawnLadybug: function()
   {
-    var x = -this.killDist + 10;
-    if(this.rnd.normal() < 0)
-      x += this.game.width + this.killDist;
-    var y = this.game.rnd.realInRange(0,this.playerY-100);
-    var speed = this.ladybugSpeed + this.game.rnd.realInRange(-0.5,0.5)*this.ladybugSpeed;
-    this.enemies.add(new Ladybug(this.game, x, y, -speed*this.game.math.sign(x)));
+    this.spawnScrollingSprite(Ladybug, this.enemies, 0, this.playerY-100,
+      this.ladybugSpeed, this.killDist);
   },
 
   spawnFish: function()
