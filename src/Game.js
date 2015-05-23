@@ -73,13 +73,17 @@ Game.prototype = {
 
   update: function() {
     if(this.player.tongueCanGrab) {
-      this.game.physics.arcade.overlap(this.player.tongueBall, this.flies, this.player.onTongueFly, null, this.player);
+      this.game.physics.arcade.overlap(this.player.tongueBall, this.flies,
+        this.player.onTongueFly, this.checkAlive, this.player);
     }
     if(this.player.tongueState != TongueStates.IDLE) {
-      this.game.physics.arcade.overlap(this.player.tongueBall, this.enemies, this.onTongueHitEnemy, null, this);
+      this.game.physics.arcade.overlap(this.player.tongueBall, this.enemies,
+        this.onTongueHitEnemy, null, this);
     }
-    this.game.physics.arcade.overlap(this.player, this.flies, this.onCollectFly, null, this);
-    this.game.physics.arcade.overlap(this.player, this.enemies, this.player.die(this.onGameEnd,this), null, this.player);
+    this.game.physics.arcade.overlap(this.player, this.flies,
+      this.onCollectFly, this.checkAlive, this);
+    this.game.physics.arcade.overlap(this.player, this.enemies,
+      this.player.die(this.onGameEnd,this), null, this.player);
 
   },
 
@@ -90,15 +94,22 @@ Game.prototype = {
 
   spawnScrollingSprite: function(objType, group, yMin, yMax, speed, killDist)
   {
+
     var x = -killDist + 10;
     if(this.game.rnd.normal() < 0) {
       x += this.game.width + killDist;
     }
     var y = this.game.rnd.realInRange(yMin,yMax);
     var rndSpeed = speed + this.game.rnd.realInRange(-0.5,0.5)*speed;
-    var scrollingObj = new objType(this.game, x, y,
-      -rndSpeed*this.game.math.sign(x), killDist);
-    group.add(scrollingObj);
+    var scrollingObj = group.getFirstDead();
+    if(scrollingObj) {
+      scrollingObj.reset(x,y);
+      scrollingObj.setSpeed(-rndSpeed*this.game.math.sign(x));
+    } else {
+      scrollingObj = new objType(this.game, x, y,
+        -rndSpeed*this.game.math.sign(x), killDist);
+      group.add(scrollingObj);
+    }
   },
 
   spawnCloud: function ()
@@ -147,7 +158,8 @@ Game.prototype = {
 
   onCollectFly: function (player, fly)
   {
-  	fly.destroy();
+    fly.detach();
+  	fly.kill();
   	this.score += 1;
   	this.scoreText.setText(String(this.score));
   },
@@ -159,6 +171,18 @@ Game.prototype = {
         fly.drop();
     },this);
     this.player.onTongueHitEnemy(tongueBall,enemy);
+  },
+
+  revive: function(sprite)
+  {
+    sprite.alive = true;
+    sprite.exists = true;
+    sprite.visible = true;
+  },
+
+  checkAlive: function(obj1, obj2)
+  {
+    return obj1.alive == true && obj2.alive == true;
   }
 
 
