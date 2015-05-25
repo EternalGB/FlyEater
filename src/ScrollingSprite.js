@@ -9,6 +9,8 @@ var ScrollingSprite = function(game, x, y, keyImage, speed, killDist)
 
   this.attached = false;
 
+  this.events.onKilled.add(this.onKill, this);
+
   this.attach = function(obj) {
     this.attached = true;
     this.body.velocity.x = 0;
@@ -44,6 +46,14 @@ ScrollingSprite.prototype.update = function()
     //console.log("Killing at " + this.x + " " + this.x);
     this.kill();
   }
+}
+
+ScrollingSprite.prototype.onKill = function()
+{
+  this.body.gravity.setTo(0);
+  this.body.velocity.setTo(0);
+  this.scale.x = Math.abs(this.scale.x);
+  this.scale.y = Math.abs(this.scale.y);
 }
 
 ScrollingSprite.prototype.setSpeed = function(speed)
