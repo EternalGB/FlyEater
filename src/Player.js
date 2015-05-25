@@ -4,7 +4,7 @@ var TongueStates = {
   RETURNING: 3
 }
 
-var Player = function(game, startX, startY)
+var Player = function(game, startX, startY, tongueLayer)
 {
   this.speed = 100;
   this.playerY = startY;
@@ -48,8 +48,11 @@ var Player = function(game, startX, startY)
   this.tongueBall = game.add.sprite(startX, startY, 'tongueBall');
   this.tongueBall.anchor.setTo(0.5);
   this.tongueBall.visible = false;
+  this.tongueBall.origScale = new Phaser.Point(1,1);
 
   game.add.existing(this);
+  tongueLayer.add(this.tongueBall);
+  tongueLayer.add(this.tongue);
 
   game.physics.arcade.enable(this);
   game.physics.arcade.enable(this.tongueBall);
@@ -136,6 +139,17 @@ Player.prototype.shootTongue = function (to)
   }
 }
 
+Player.prototype.growTongue = function(scaleFactor, duration)
+{
+  this.tongueBall.scale.x += this.tongueBall.origScale.x*scaleFactor;
+  this.tongueBall.scale.y += this.tongueBall.origScale.y*scaleFactor;
+  var _scaleFactor = scaleFactor;
+  this.game.time.events.add(duration*1000, function() {
+    this.tongueBall.scale.x -= this.tongueBall.origScale.x*_scaleFactor;
+    this.tongueBall.scale.y -= this.tongueBall.origScale.y*_scaleFactor;
+  }, this);
+}
+
 Player.prototype.disableTongue = function()
 {
   this.tongueCanGrab = false;
@@ -185,6 +199,12 @@ Player.prototype.onTongueHitEnemy = function(tongue, enemy)
   this.disableTongue();
   this.returnTongue();
 
+}
+
+Player.prototype.onTongueBee = function(tongue, bee)
+{
+  bee.attach(tongue);
+  this.growTongue(1,3);
 }
 
 Player.prototype.leap = function(to)

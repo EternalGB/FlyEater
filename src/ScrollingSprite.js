@@ -8,6 +8,7 @@ var ScrollingSprite = function(game, x, y, keyImage, speed, killDist)
   this.setSpeed(speed);
 
   this.attached = false;
+  this.dropped = false;
 
   this.events.onKilled.add(this.onKill, this);
 
@@ -30,7 +31,8 @@ var ScrollingSprite = function(game, x, y, keyImage, speed, killDist)
     this.body.velocity.setTo(0);
     this.body.gravity.setTo(0,300);
     this.animations.play('dead');
-    this.scale.y = -1;
+    this.scale.y = -this.scale.y;
+    this.dropped = true;
   }
 
 }
@@ -54,6 +56,8 @@ ScrollingSprite.prototype.onKill = function()
   this.body.velocity.setTo(0);
   this.scale.x = Math.abs(this.scale.x);
   this.scale.y = Math.abs(this.scale.y);
+  this.dropped = false;
+  this.animations.play('moving');
 }
 
 ScrollingSprite.prototype.setSpeed = function(speed)

@@ -37,10 +37,14 @@ Game.prototype = {
 
   create: function() {
     this.playerY = this.game.height - 100;
+    var startX = this.game.width/2;
+  	var startY = this.playerY;
+
     this.game.stage.backgroundColor = '#99CCFF';
     var trees = this.game.add.tileSprite(0,0,800,800,'trees');
     this.clouds = this.game.add.group();
     var bg = this.game.add.tileSprite(0,0,800,600,'bg');
+    this.tongueLayer = this.game.add.group();
     this.enemies = this.game.add.group();
     this.flies = this.game.add.group();
     this.bees = this.game.add.group();
@@ -52,10 +56,9 @@ Game.prototype = {
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
-  	var startX = this.game.width/2;
-  	var startY = this.playerY;
 
-    this.player = new Player(this.game, startX, startY);
+
+    this.player = new Player(this.game, startX, startY, this.tongueLayer);
 
 
   	this.flies.enableBody = true;
@@ -69,19 +72,26 @@ Game.prototype = {
     this.time.events.loop(this.fishSpawnInterval*1000, this.spawnFish, this);
     this.time.events.loop(this.ladybugSpawnInterval*1000, this.spawnLadybug, this);
 
+    this.time.events.loop(this.beeSpawnInterval*1000, this.spawnBee, this);
   },
 
   update: function() {
     if(this.player.tongueCanGrab) {
       this.game.physics.arcade.overlap(this.player.tongueBall, this.flies,
         this.player.onTongueFly, this.checkAlive, this.player);
+      this.game.physics.arcade.overlap(this.player.tongueBall, this.bees,
+        this.player.onTongueBee, function(tongueBall, bee) {
+          return !bee.attached;
+        }, this.player);
     }
     if(this.player.tongueState != TongueStates.IDLE) {
       this.game.physics.arcade.overlap(this.player.tongueBall, this.enemies,
         this.onTongueHitEnemy, null, this);
     }
     this.game.physics.arcade.overlap(this.player, this.flies,
-      this.onCollectFly, this.checkAlive, this);
+      this.onCollect(1), this.checkAlive, this);
+    this.game.physics.arcade.overlap(this.player, this.bees,
+      this.onCollect(2), this.checkAlive, this);
     this.game.physics.arcade.overlap(this.player, this.enemies,
       this.player.die(this.onGameEnd,this), null, this.player);
 
@@ -151,17 +161,26 @@ Game.prototype = {
 
   },
 
+  spawnBee: function()
+  {
+    this.spawnScrollingSprite(Bee, this.bees, 0, this.playerY-200,
+      this.beeSpeed, this.killDist);
+  },
+
   onGameEnd: function()
   {
     this.game.state.start('End', true, false, this.score);
   },
 
-  onCollectFly: function (player, fly)
+  onCollect: function (scoreValue)
   {
-    fly.detach();
-  	fly.kill();
-  	this.score += 1;
-  	this.scoreText.setText(String(this.score));
+    var _scoreValue = scoreValue;
+    return function(player, collected) {
+      collected.detach();
+      collected.kill();
+    	this.score += _scoreValue;
+    	this.scoreText.setText(String(this.score));
+    }
   },
 
   onTongueHitEnemy: function(tongueBall, enemy)
