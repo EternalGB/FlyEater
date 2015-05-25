@@ -180,7 +180,7 @@ Game.prototype = {
     birdGhost.animations.add('idle', ['bat.png']).play(1,true);
     birdGhost.anchor.setTo(0.5);
     birdGhost.alpha = 0.5;
-    birdGhost.scale.x *= this.game.math.sign(x - this.game.width);
+    birdGhost.scale.x *= x > 0 ? 1 : -1;
 
     this.game.time.events.add(3*1000, function(ghost, _speed) {
       this.enemies.add(new Bird(this.game, ghost.x, ghost.y, this.player, _speed));
