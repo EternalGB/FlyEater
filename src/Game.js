@@ -11,6 +11,8 @@ var Game = function(game){
   this.flies;
   this.enemies;
 
+  this.birds;
+
   this.bees;
   this.beeSpeed = 200;
   this.beeSpawnInterval = 3;
@@ -22,6 +24,9 @@ var Game = function(game){
 
   this.ladybugSpeed = 250;
   this.ladybugSpawnInterval = 2.5;
+
+  this.birdSpeed = 250;
+  this.birdSpawnInterval = 8;
 
   this.score = 0;
   this.scoreText;
@@ -49,16 +54,13 @@ Game.prototype = {
     this.flies = this.game.add.group();
     this.bees = this.game.add.group();
     var mg = this.game.add.tileSprite(0,0,800,600,'mg');
+    this.player = new Player(this.game, startX, startY, this.tongueLayer);
     this.waterEffects = this.game.add.group();
     var fg = this.game.add.tileSprite(0,0,800,600,'fg');
 
 
-
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
-
-
-    this.player = new Player(this.game, startX, startY, this.tongueLayer);
 
 
   	this.flies.enableBody = true;
@@ -73,6 +75,8 @@ Game.prototype = {
     this.time.events.loop(this.ladybugSpawnInterval*1000, this.spawnLadybug, this);
 
     this.time.events.loop(this.beeSpawnInterval*1000, this.spawnBee, this);
+    this.time.events.loop(this.birdSpawnInterval*1000, this.spawnBird, this);
+
   },
 
   update: function() {
@@ -165,6 +169,23 @@ Game.prototype = {
   {
     this.spawnScrollingSprite(Bee, this.bees, 0, this.playerY-200,
       this.beeSpeed, this.killDist);
+  },
+
+  spawnBird: function()
+  {
+    var x = this.game.rnd.pick([0,this.game.width]);
+    var y = this.game.rnd.realInRange(this.playerY-300, 0);
+    var speed = this.birdSpeed + this.birdSpeed*this.game.rnd.realInRange(-0.25,0.15);
+    var birdGhost = this.game.add.sprite(x,y, 'enemies');
+    birdGhost.animations.add('idle', ['bat.png']).play(1,true);
+    birdGhost.anchor.setTo(0.5);
+    birdGhost.alpha = 0.5;
+    birdGhost.scale.x *= this.game.math.sign(x - this.game.width);
+
+    this.game.time.events.add(3*1000, function(ghost, _speed) {
+      this.enemies.add(new Bird(this.game, ghost.x, ghost.y, this.player, _speed));
+      birdGhost.destroy();
+    }, this, birdGhost, speed);
   },
 
   onGameEnd: function()
