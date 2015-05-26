@@ -10,6 +10,7 @@ var Game = function(game){
   this.flySpawnInterval = 1;
   this.flies;
   this.enemies;
+  this.frontEnemies;
 
   this.birds;
 
@@ -25,7 +26,7 @@ var Game = function(game){
   this.ladybugSpeed = 250;
   this.ladybugSpawnInterval = 2.5;
 
-  this.birdSpeed = 250;
+  this.birdSpeed = 200;
   this.birdSpawnInterval = 8;
 
   this.score = 0;
@@ -54,8 +55,9 @@ Game.prototype = {
     this.flies = this.game.add.group();
     this.bees = this.game.add.group();
     var mg = this.game.add.tileSprite(0,0,800,600,'mg');
-    this.player = new Player(this.game, startX, startY, this.tongueLayer);
     this.waterEffects = this.game.add.group();
+    this.player = new Player(this.game, startX, startY, this.tongueLayer);
+    this.frontEnemies = this.game.add.group();
     var fg = this.game.add.tileSprite(0,0,800,600,'fg');
 
 
@@ -98,7 +100,8 @@ Game.prototype = {
       this.onCollect(2), this.checkAlive, this);
     this.game.physics.arcade.overlap(this.player, this.enemies,
       this.player.die(this.onGameEnd,this), null, this.player);
-
+    this.game.physics.arcade.overlap(this.player, this.frontEnemies,
+      this.player.die(this.onGameEnd,this), null, this.player);
   },
 
   moveTowards: function(body, x, y, speed) {
@@ -183,7 +186,7 @@ Game.prototype = {
     birdGhost.scale.x *= x > 0 ? 1 : -1;
 
     this.game.time.events.add(3*1000, function(ghost, _speed) {
-      this.enemies.add(new Bird(this.game, ghost.x, ghost.y, this.player, _speed));
+      this.frontEnemies.add(new Bird(this.game, ghost.x, ghost.y, this.player, _speed));
       birdGhost.destroy();
     }, this, birdGhost, speed);
   },
