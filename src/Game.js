@@ -26,7 +26,7 @@ var Game = function(game){
   this.ladybugSpeed = 250;
   this.ladybugSpawnInterval = 2.5;
 
-  this.birdSpeed = 200;
+  this.birdSpeed = 250;
   this.birdSpawnInterval = 8;
 
   this.score = 0;
@@ -148,7 +148,8 @@ Game.prototype = {
 
   spawnFish: function()
   {
-    var x = this.game.rnd.realInRange(0, this.game.width);
+    var x = this.game.math.clamp(
+      this.player.x + this.game.rnd.realInRange(-50, 50), 0, this.game.width);
     var y = this.playerY+25;
     var speed = this.fishSpeed + this.fishSpeed*this.game.rnd.realInRange(-0.25,0.15);
     var ripple = this.game.add.sprite(x,y,'ripple');
@@ -178,7 +179,7 @@ Game.prototype = {
   {
     var x = this.game.rnd.pick([0,this.game.width]);
     var y = this.game.rnd.realInRange(this.playerY-300, 0);
-    var speed = this.birdSpeed + this.birdSpeed*this.game.rnd.realInRange(-0.25,0.15);
+    var speed = this.birdSpeed + this.birdSpeed*this.game.rnd.realInRange(-0.10,0.10);
     var birdGhost = this.game.add.sprite(x,y, 'enemies');
     birdGhost.animations.add('idle', ['bat.png']).play(1,true);
     birdGhost.anchor.setTo(0.5);

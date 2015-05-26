@@ -61,8 +61,8 @@ Bird = function(game, x, y, target, speed)
   var startY = y;
   var xTween = game.add.tween(this).to({x: x + 2*xDiff}, duration);
   var yTo = game.add.tween(this).to({y: targetY}, duration/2,
-    Phaser.Easing.Quintic.Out);
-  var yFrom = game.add.tween(this).to({y: -1}, duration/2,Phaser.Easing.Quintic.In);
+    Phaser.Easing.Cubic.Out);
+  var yFrom = game.add.tween(this).to({y: -1}, duration/2,Phaser.Easing.Cubic.In);
   yTo.chain(yFrom);
   xTween.start();
   yTo.start();
